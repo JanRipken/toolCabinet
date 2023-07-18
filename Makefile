@@ -3,6 +3,9 @@ CFLAGS=-c -Wall
 TARGET=build/toolCabinet
 LIBS = -Ljsoncpp/lib -Ijsoncpp/include -ljsoncpp
 
+# Directory for test objects and binaries
+TEST_DIR=build/tests
+
 all: $(TARGET)
 
 $(TARGET): build/toolCabinet.o build/tool.o build/cabinet.o
@@ -20,27 +23,27 @@ build/tool.o: src/tool.cpp
 build/cabinet.o: src/cabinet.cpp
 	$(CC) $(CFLAGS) -Ijsoncpp/include src/cabinet.cpp -o build/cabinet.o
 
-build/cabinet_test.o: tests/cabinet_test.cpp
-	$(CC) $(CFLAGS) -Ijsoncpp/include tests/cabinet_test.cpp -o build/cabinet_test.o
+$(TEST_DIR)/cabinet_test.o: tests/cabinet_test.cpp
+	$(CC) $(CFLAGS) -Ijsoncpp/include tests/cabinet_test.cpp -o $(TEST_DIR)/cabinet_test.o
 
-build/tool_test.o: tests/tool_test.cpp
-	$(CC) $(CFLAGS) -Ijsoncpp/include tests/tool_test.cpp -o build/tool_test.o
+$(TEST_DIR)/tool_test.o: tests/tool_test.cpp
+	$(CC) $(CFLAGS) -Ijsoncpp/include tests/tool_test.cpp -o $(TEST_DIR)/tool_test.o
 
-build/cabinet_test: build/cabinet_test.o build/cabinet.o build/tool.o
-	$(CC) build/cabinet_test.o build/cabinet.o build/tool.o -o build/cabinet_test $(LIBS)
+$(TEST_DIR)/cabinet_test: $(TEST_DIR)/cabinet_test.o build/cabinet.o build/tool.o
+	$(CC) $(TEST_DIR)/cabinet_test.o build/cabinet.o build/tool.o -o $(TEST_DIR)/cabinet_test $(LIBS)
 
-build/tool_test: build/tool_test.o build/tool.o
-	$(CC) build/tool_test.o build/tool.o -o build/tool_test $(LIBS)
+$(TEST_DIR)/tool_test: $(TEST_DIR)/tool_test.o build/tool.o
+	$(CC) $(TEST_DIR)/tool_test.o build/tool.o -o $(TEST_DIR)/tool_test $(LIBS)
 
 clean:
-	rm -rf build toolCabinet
+	rm -rf build/toolCabinet $(TEST_DIR)/*
 
 run: $(TARGET)
 	./$(TARGET)
 
-test: build/cabinet_test build/tool_test
-	./build/cabinet_test
-	./build/tool_test
+test: $(TEST_DIR)/cabinet_test $(TEST_DIR)/tool_test
+	./$(TEST_DIR)/cabinet_test
+	./$(TEST_DIR)/tool_test
 
 .PHONY: all clean run test
 
