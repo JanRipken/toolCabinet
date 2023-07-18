@@ -18,5 +18,17 @@
 	{
 		"lagerort" : "C9",
 		"name" : "Ding"
+	},
+	{
+		"lagerort" : "Z10",
+		"name" : "Ding"
+	},
+	{
+		"lagerort" : "G6",
+		"name" : "Tier"
+	},
+	{
+		"lagerort" : "T1",
+		"name" : "Ling"
 	}
 ]

@@ -5,16 +5,16 @@
 
 class tool {
 public:
-    std::string getname();
-    void setname(std::string name);
+    std::string& getname();
+    void setname(const std::string& name);
 
-    std::string getlagerort();
-    void setlagerort(std::string lagerort);
+    std::string& getlagerort();
+    void setlagerort(const std::string& lagerort);
 
 private:
     std::string _name;
     std::string _lagerort;
 };
 
-#endif // TOOL_HPP
+#endif 
 

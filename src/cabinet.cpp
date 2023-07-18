@@ -5,15 +5,15 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include <json/json.h>
+#include <jsoncpp/json/json.h>
 
 
-std::vector<tool> cabinet::getListe(){
+std::vector<tool>& cabinet::getListe(){
     return _toolcabinet;
 };
 
 
-void cabinet::insertTool(tool tool){
+void cabinet::insertTool(tool& tool){
     _toolcabinet.push_back(tool);    
 };
 
@@ -27,53 +27,35 @@ void cabinet::printCabinet(){
     };
     std::cout <<"------------------------------------------------"<<"\n";
 };
+;
 
-std::vector<tool> cabinet::listeEinlesen(){
-    const std::string filename = "data/data.csv";
+std::vector<tool> cabinet::listeEinlesenJson() {
+    const std::string filename = "data/data.json";
     std::ifstream file(filename);
-    if(!file.is_open()){
+    if (!file.is_open()) {
+        std::cerr << "Fehler beim Öffnen der JSON-Datei zum Lesen.\n";
         return _toolcabinet;
     }
 
-    std::string line;
-     while (std::getline(file, line)) {  // Zeilenweise aus der CSV-Datei lesen
-        std::stringstream ss(line);
-        std::string name, lagerort;
+    Json::Value cabinetJson;
+    file >> cabinetJson;
+
+    for (const Json::Value& toolJson : cabinetJson) {
+        std::string name = toolJson["name"].asString();
+        std::string lagerort = toolJson["lagerort"].asString();
         tool _tool;
-        if (std::getline(ss, name, ';') && std::getline(ss, lagerort,';')) {
-            _tool.setname(name);
-            _tool.setlagerort(lagerort);
-            _toolcabinet.push_back(_tool);
-        } else {
-            std::cerr << "Ungültiges CSV-Format in Zeile: " << line << '\n';
-        }
-    }
-    
-    file.close();  // CSV-Datei schließen
-    return _toolcabinet;
-};
-
-
-
-void cabinet::listeSpeichern(std::vector<tool> toolcabinet){
-    const std::string filename = "data/data.csv";
-    std::ofstream file(filename);
-    if (!file.is_open()) {
-        std::cerr << "Fehler beim Öffnen der CSV-Datei zum Speichern.\n";
-        return;
-    }
-
-    for (tool tool : toolcabinet) {
-        file << tool.getname() 
-            << ';' << tool.getlagerort()<<";" << '\n';
+        _tool.setname(name);
+        _tool.setlagerort(lagerort);
+        _toolcabinet.push_back(_tool);
     }
 
     file.close();
-};
+    return _toolcabinet;
+}
 
 
 
-void cabinet::listeSpeichernJson(std::vector<tool> toolcabinet) {
+void cabinet::listeSpeichernJson(std::vector<tool>& toolcabinet) {
     const std::string filename = "data/data.json";
     std::ofstream file(filename);
     if (!file.is_open()) {

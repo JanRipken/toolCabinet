@@ -39,7 +39,6 @@ int menu(cabinet &_cabinet){
             _cabinet.printCabinet();
             break;
         case 6:
-            _cabinet.listeSpeichern(_cabinet.getListe());
             _cabinet.listeSpeichernJson(_cabinet.getListe());
             break;
         case 10:
@@ -53,7 +52,7 @@ int menu(cabinet &_cabinet){
 
 int main() {
     cabinet _cabinet;
-    _cabinet.listeEinlesen();
+    _cabinet.listeEinlesenJson();
     int _runner = 0;
     while(_runner!=10){
         _runner = menu(_cabinet);
