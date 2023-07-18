@@ -5,7 +5,28 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include <jsoncpp/json/json.h>
+
+#ifdef __linux__ // Überprüfe, ob das Betriebssystem Linux ist
+
+    #ifdef __GNUC__ // Überprüfe, ob der Compiler GCC ist
+
+        #ifdef __ubuntu__ // Überprüfe, ob das Betriebssystem Ubuntu ist
+
+            #include <jsoncpp/json/json.h>
+
+        #else // Es handelt sich um Arch Linux oder eine andere Linux-Distribution
+
+            #include <json/json.h>
+
+        #endif
+
+    #endif
+
+#elif __APPLE__ // Überprüfe, ob das Betriebssystem macOS ist
+
+    #include <json/json.h>
+
+#endif
 
 
 std::vector<tool>& cabinet::getListe(){
