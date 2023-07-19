@@ -1,5 +1,5 @@
 build/*.o
 build/*.txt
-build/.cmake
+build/*.cmake
 build/Makefile
 build/CMakeFiles/
