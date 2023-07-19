@@ -1,2 +1,5 @@
 build/*.o
-build/tests/*.o
+build/*.txt
+build/.cmake
+build/Makefile
+build/CMakeFiles/

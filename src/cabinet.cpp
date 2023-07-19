@@ -51,7 +51,7 @@ void cabinet::printCabinet(){
 ;
 
 std::vector<tool> cabinet::listeEinlesenJson() {
-    const std::string filename = "data/data.json";
+    const std::string filename = "../data/data.json";
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Fehler beim Öffnen der JSON-Datei zum Lesen.\n";
@@ -77,7 +77,7 @@ std::vector<tool> cabinet::listeEinlesenJson() {
 
 
 void cabinet::listeSpeichernJson(std::vector<tool>& toolcabinet) {
-    const std::string filename = "data/data.json";
+    const std::string filename = "../data/data.json";
     std::ofstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Fehler beim Öffnen der JSON-Datei zum Speichern.\n";
